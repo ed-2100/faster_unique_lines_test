@@ -16,17 +16,15 @@ project(
 
 #add_global_link_arguments('-static-libstdc++', language: ['c', 'cpp'])
 
-args = [
+cpp_args = [
   '-march=native',
-  '-mtune=native',
+  '-mtune=native'
 ]
 
 add_global_arguments(cpp_args, language: ['c', 'cpp'])
 
-cmake = import('cmake')
-
-hh_proj = cmake.subproject('highwayhash')
-hh_dep = hh_proj.dependency('highwayhash')
+hh_proj = subproject('highwayhash')
+hh_dep = hh_proj.get_variable('highwayhash')
 
 executable(
   'fast_unique',
