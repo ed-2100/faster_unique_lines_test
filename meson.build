@@ -1,13 +1,28 @@
 project(
-    'proj',
+    'fast_unique',
     ['cpp'],
     version: '0.1',
     default_options: [
         'warning_level=3',
         'cpp_std=c++20',
-        'backend=ninja'
+        'backend=ninja',
+        'buildtype=custom',
+        'optimization=g',
+        'debug=true',
+        'b_ndebug=false',
+        'b_lto=true',
+        'b_pie=true'
     ]
 )
+
+add_global_link_arguments('-static-libstdc++', language: ['c', 'cpp'])
+
+cpp_args = [
+  '-march=native',
+  '-mtune=native'
+]
+
+add_global_arguments(cpp_args, language: ['c', 'cpp'])
 
 cmake = import('cmake')
 
@@ -17,10 +32,5 @@ hh_dep = hh_proj.dependency('highwayhash')
 executable(
   'fast_unique',
   ['main.cpp'],
-  cpp_args : ['-march=native', '-mtune=native', '-Ofast', '-fno-exceptions', '-fno-rtti', '-g'],
-  dependencies : [hh_dep],
-  install : true
+  dependencies : [hh_dep]
 )
-
-# meson build --wipe -Ddebug=true -Doptimization=3
-# meson build --wipe -Dbuildtype=release -Doptimization=3
