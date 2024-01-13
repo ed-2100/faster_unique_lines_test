@@ -42,11 +42,12 @@ phonyMain(int argc, const char *argv[])
   std::chrono::duration<double> insert_time{};
 #endif
   size_t total_count = 0;
+
   while (!f.eof())
   {
     total_count++;
 
-    std::string line{};
+    std::string line;
 #ifndef NDEBUG
     {
       auto t1 = std::chrono::high_resolution_clock::now();
