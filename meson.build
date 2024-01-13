@@ -10,12 +10,11 @@ project(
         'optimization=g',
         'debug=true',
         'b_ndebug=false',
-        'b_lto=true',
-        'b_pie=true'
+        'b_lto=true'
     ]
 )
 
-add_global_link_arguments('-static-libstdc++', language: ['c', 'cpp'])
+#add_global_link_arguments('-static-libstdc++', language: ['c', 'cpp'])
 
 args = [
   '-march=native',
