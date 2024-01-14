@@ -14,8 +14,6 @@ project(
     ]
 )
 
-#add_global_link_arguments('-static-libstdc++', language: ['c', 'cpp'])
-
 cpp_args = [
   '-march=native',
   '-mtune=native'
