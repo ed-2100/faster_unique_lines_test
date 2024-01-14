@@ -23,7 +23,7 @@ cpp_args = [
 
 add_global_arguments(cpp_args, language: ['c', 'cpp'])
 
-hh_proj = subproject('hh_c')
+hh_proj = subproject('hh_c', default_options: ['simd=' + get_option('simd')])
 hh_dep = hh_proj.get_variable('hh_c')
 
 executable(
