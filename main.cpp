@@ -1,5 +1,6 @@
 #include <chrono>
 #include <cstddef>
+#include <cstdint>
 #include <exception>
 #include <fstream>
 #include <iostream>
@@ -7,19 +8,16 @@
 #include <string>
 #include <unordered_set>
 
-#include <highwayhash/highwayhash.h>
+#include <hh_c/highwayhash.h>
 
-const highwayhash::HHKey key = {0xe7f93cac412e38c4, 0xcfaa6c993e2acbd7, 0x55b5fccc63796260, 0x0f9b319eaf7bed1e};
+const uint64_t key[4] = {0xe7f93cac412e38c4, 0xcfaa6c993e2acbd7, 0x55b5fccc63796260, 0x0f9b319eaf7bed1e};
 
 struct HighwayHash
 {
   size_t
   operator()(const std::string &s) const
   {
-    highwayhash::HHResult64 result{};
-    highwayhash::HHStateT<HH_TARGET> state(key);
-    highwayhash::HighwayHashT(&state, s.data(), s.size(), &result);
-    return result;
+    return HighwayHash64(reinterpret_cast<const uint8_t*>(s.data()), s.size(), key);
   }
 };
 
