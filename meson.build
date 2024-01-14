@@ -23,7 +23,7 @@ cpp_args = [
 
 add_global_arguments(cpp_args, language: ['c', 'cpp'])
 
-hh_proj = subproject('highwayhash')
+hh_proj = subproject('highwayhash', )
 hh_dep = hh_proj.get_variable('highwayhash')
 
 executable(
