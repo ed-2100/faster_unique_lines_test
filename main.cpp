@@ -104,7 +104,8 @@ main(int argc, const char *argv[])
     std::cerr << "An error has occured: " << e.what() << '\n';
     ret = -1;
   }
-  catch (std::exception e) {
+  catch (std::exception e)
+  {
     std::cerr << "An unknown error has occured.";
   }
 
