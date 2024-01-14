@@ -23,8 +23,10 @@ cpp_args = [
 
 add_global_arguments(cpp_args, language: ['c', 'cpp'])
 
-hh_proj = subproject('highwayhash', )
-hh_dep = hh_proj.get_variable('highwayhash')
+cmake = import('cmake')
+
+hh_proj = cmake.subproject('highwayhash')
+hh_dep = hh_proj.dependency('highwayhash')
 
 executable(
   'fast_unique',
