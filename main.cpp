@@ -99,10 +99,13 @@ main(int argc, const char *argv[])
   {
     ret = phonyMain(argc, argv);
   }
-  catch (std::exception e)
+  catch (std::runtime_error e)
   {
     std::cerr << "An error has occured: " << e.what() << '\n';
     ret = -1;
+  }
+  catch (std::exception e) {
+    std::cerr << "An unknown error has occured.";
   }
 
   return ret;
