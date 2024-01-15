@@ -10,18 +10,23 @@ project(
         'optimization=g',
         'debug=true',
         'b_ndebug=false',
-        'b_lto=true'
+        'b_lto=true',
+        'b_pie=false'
     ]
 )
 
-cpp_args = [
-  '-march=native',
-  '-mtune=native'
-]
+# cpp_args = [
+#   '-march=native',
+#   '-mtune=native'
+# ]
 
-add_global_arguments(cpp_args, language: ['c', 'cpp'])
+# add_global_arguments(cpp_args, language: ['c', 'cpp'])
 
-hh_proj = subproject('hh_c', default_options: ['simd=' + get_option('simd')])
+hh_proj = subproject('hh_c', default_options: [
+  'b_lto=true',
+  'b_pie=false',
+  'simd=' + get_option('simd')
+])
 hh_dep = hh_proj.get_variable('hh_c')
 
 executable(
