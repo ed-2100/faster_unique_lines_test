@@ -10,39 +10,35 @@
 
 #include <hh_c/highwayhash.h>
 
-const uint64_t key[4] = {0xe7f93cac412e38c4, 0xcfaa6c993e2acbd7, 0x55b5fccc63796260, 0x0f9b319eaf7bed1e};
+#include <boost/unordered/unordered_flat_set.hpp>
 
-struct HighwayHash
-{
-  size_t
-  operator()(const std::string &s) const
-  {
-    return HighwayHash64(reinterpret_cast<const uint8_t*>(s.data()), s.size(), key);
+const uint64_t key[4] = {0xe7f93cac412e38c4, 0xcfaa6c993e2acbd7,
+                         0x55b5fccc63796260, 0x0f9b319eaf7bed1e};
+
+struct HighwayHash {
+  size_t operator()(const std::string &s) const {
+    return HighwayHash64(reinterpret_cast<const uint8_t *>(s.data()), s.size(),
+                         key);
   }
 };
 
-int
-phonyMain(int argc, const char *argv[])
-{
-  auto t1 = std::chrono::high_resolution_clock::now();
-
-  if (argc != 2)
-  {
+int phonyMain(int argc, const char *argv[]) {
+  if (argc != 2) {
     throw std::runtime_error("I accept exactly ONE argument!");
   }
 
   std::ifstream f{argv[1], std::ios::binary};
 
   // TODO: Implement a more barebones set.
-  auto set = std::unordered_set<std::string, HighwayHash>();
+  auto set = boost::unordered_flat_set<std::string, HighwayHash>(4004000);
 #ifndef NDEBUG
   std::chrono::duration<double> getline_time{};
   std::chrono::duration<double> insert_time{};
 #endif
   size_t total_count = 0;
 
-  while (!f.eof())
-  {
+  auto t1 = std::chrono::high_resolution_clock::now();
+  while (!f.eof()) {
     total_count++;
 
     std::string line;
@@ -50,13 +46,14 @@ phonyMain(int argc, const char *argv[])
     {
       auto t1 = std::chrono::high_resolution_clock::now();
 #endif
-      std::getline(f, line);
+      std::getline(f, line, '\n');
 #ifndef NDEBUG
       auto t2 = std::chrono::high_resolution_clock::now();
 
       std::chrono::duration<double> diff = t2 - t1;
 
-      getline_time = getline_time * (1 - (1. / total_count)) + diff / total_count;
+      getline_time =
+          getline_time * (1 - (1. / total_count)) + diff / total_count;
     }
 
     {
@@ -88,22 +85,15 @@ phonyMain(int argc, const char *argv[])
   return 0;
 }
 
-int
-main(int argc, const char *argv[])
-{
+int main(int argc, const char *argv[]) {
   int ret{};
 
-  try
-  {
+  try {
     ret = phonyMain(argc, argv);
-  }
-  catch (std::runtime_error e)
-  {
+  } catch (std::runtime_error e) {
     std::cerr << "An error has occured: " << e.what() << '\n';
     ret = -1;
-  }
-  catch (std::exception e)
-  {
+  } catch (std::exception e) {
     std::cerr << "An unknown error has occured.";
   }
 
