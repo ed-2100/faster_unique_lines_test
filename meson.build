@@ -7,12 +7,9 @@ project(
         'cpp_std=c++20',
         'backend=ninja',
         'buildtype=custom',
-        'optimization=3',
+        'optimization=2',
         'debug=false',
-        'b_ndebug=true',
-        'b_staticpic=false',
-        'b_pie=false',
-        'b_lto=true'
+        'b_ndebug=true'
     ]
 )
 
